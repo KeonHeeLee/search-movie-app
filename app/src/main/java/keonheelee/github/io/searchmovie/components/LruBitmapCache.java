@@ -9,11 +9,11 @@ import com.android.volley.toolbox.ImageLoader.ImageCache;
 
 public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache {
 
-    public LruBitmapCache(int maxSize) {
+    LruBitmapCache(int maxSize) {
         super(maxSize);
     }
 
-    public LruBitmapCache(Context ctx) {
+    LruBitmapCache(Context ctx) {
         this(getCacheSize(ctx));
     }
 
@@ -33,7 +33,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     }
 
     // Returns a cache size equal to approximately three screens worth of images.
-    public static int getCacheSize(Context ctx) {
+    static int getCacheSize(Context ctx) {
         final DisplayMetrics displayMetrics = ctx.getResources().getDisplayMetrics();
         final int screenWidth = displayMetrics.widthPixels;
         final int screenHeight = displayMetrics.heightPixels;

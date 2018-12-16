@@ -13,7 +13,7 @@
 ## 선택 구현 사항
 ### 구조 및 라이브러리
 - [ ] RxJava 사용
-- [ ] Databinding 사용
+- [x] Databinding 사용
 - [ ] MVP / MVVM / MVI 패턴 사용
 ### 기능 구현
 - [x] 검색결과 무한 스크롤 구현

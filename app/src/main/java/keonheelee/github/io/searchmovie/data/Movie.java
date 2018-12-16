@@ -20,6 +20,34 @@ public class Movie {
         this.link = link;
     }
 
+    public void setImageUrl(String imageUrl){
+        this.imageUrl = imageUrl;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUserRating(int userRating) {
+        this.userRating = userRating;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
