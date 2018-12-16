@@ -12,7 +12,7 @@
 
 ## 선택 구현 사항
 ### 구조 및 라이브러리
-- [ ] RxJava 사용
+- [x] RxJava 사용
 - [x] Databinding 사용
 - [ ] MVP / MVVM / MVI 패턴 사용
 ### 기능 구현
