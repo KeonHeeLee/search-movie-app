@@ -13,7 +13,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
         super(maxSize);
     }
 
-    LruBitmapCache(Context ctx) {
+    public LruBitmapCache(Context ctx) {
         this(getCacheSize(ctx));
     }
 
