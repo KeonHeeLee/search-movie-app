@@ -9,12 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.observers.DefaultObserver;
 import keonheelee.github.io.searchmovie.components.EndlessRecyclerViewScrollListener;
 import keonheelee.github.io.searchmovie.components.LruBitmapCache;
 import keonheelee.github.io.searchmovie.components.MovieViewHolder;
@@ -43,7 +42,7 @@ import keonheelee.github.io.searchmovie.data.ClientKey;
 import keonheelee.github.io.searchmovie.databinding.ActivityMainBinding;
 import keonheelee.github.io.searchmovie.data.Movie;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     // 테스트용
     private static final String TAG = "Hello";
 
@@ -57,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private JSONObject mResult;
     private EndlessRecyclerViewScrollListener mEndlessScrollListener;
+    private String keyword;
 
     // 데이터바인딩
     private ActivityMainBinding activityMainBinding;
     private ArrayList<Movie> movieList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
         mImageLoader = new ImageLoader(mQueue, new LruBitmapCache(this));
 
         setRecyclerView();
+        onClickSearchButton();
 
         activityMainBinding.setActivity(this);
     }
 
-    private void setRecyclerView(){
+    public void setRecyclerView(){
         movieList = new ArrayList<Movie>();
         mAdapter = new MovieAdapter();
 
@@ -102,19 +104,33 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.listMain.setAdapter(mAdapter);
     }
 
-    public void onClickSearchButton(View view) {
-        String keyword = activityMainBinding.searchText.getText().toString();
+    public void onClickSearchButton() {
+        RxView.clicks(activityMainBinding.searchBtn).subscribe(new DefaultObserver<Object>() {
+            @Override
+            public void onNext(Object o) {
+                keyword = activityMainBinding.searchText.getText().toString();
 
-        // 검색어 입력여부 검사
-        if (keyword.equals(""))
-            Toast.makeText(this,
-                    "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show();
-        else
-            requestMovieList(keyword);
+                // 검색어 입력여부 검사
+                if (keyword.equals(""))
+                    Toast.makeText(MainActivity.this,
+                            "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show();
 
+                requestMovieList(keyword);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(MainActivity.this,
+                        "검색에 실패하였습니다.\n" + e.toString()
+                        , Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
-
-    /* mAdapter.notifyDataSetChanged();*/
 
     public void requestMovieList(String keyword){
         try{
@@ -188,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                     "Error:" +e.toString(), Toast.LENGTH_SHORT).show();
             mResult = null;
         }
-
         mAdapter.notifyDataSetChanged();
     }
 
@@ -216,12 +231,25 @@ public class MainActivity extends AppCompatActivity {
 
             holder.binding.userRating.setRating((float)movie.getUserRating() / 2);
             holder.binding.image.setImageUrl(movie.getImageUrl(), mImageLoader);
-            holder.itemView.setOnClickListener(new View.OnClickListener(){
+
+            // RxJava를 통한 링크 이동 및 에러처리
+            RxView.clicks(holder.itemView).subscribe(new DefaultObserver<Object>() {
                 @Override
-                public void onClick(View v) {
+                public void onNext(Object o) {
                     Uri uri = Uri.parse(movie.getLink());
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Toast.makeText(MainActivity.this,
+                            "링크 오류: "+e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onComplete() {
+
                 }
             });
         }
