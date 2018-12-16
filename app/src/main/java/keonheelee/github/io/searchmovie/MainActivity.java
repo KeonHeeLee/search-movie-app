@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import keonheelee.github.io.searchmovie.components.EndlessRecyclerViewScrollListener;
 import keonheelee.github.io.searchmovie.components.LruBitmapCache;
 import keonheelee.github.io.searchmovie.components.MovieViewHolder;
 import keonheelee.github.io.searchmovie.data.ClientKey;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageLoader mImageLoader;
     private RequestQueue mQueue;
     private JSONObject mResult;
+    private EndlessRecyclerViewScrollListener mEndlessScrollListener;
 
     // 데이터바인딩
     private ActivityMainBinding activityMainBinding;
@@ -64,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = DataBindingUtil
                 .setContentView(this, R.layout.activity_main);
 
-        movieList = new ArrayList<Movie>();
-        mAdapter = new MovieAdapter();
         mQueue = Volley.newRequestQueue(this);
         mImageLoader = new ImageLoader(mQueue, new LruBitmapCache(this));
 
@@ -75,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        movieList = new ArrayList<Movie>();
+        mAdapter = new MovieAdapter();
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 activityMainBinding.listMain.getContext(), linearLayoutManager.getOrientation());
         activityMainBinding.listMain.addItemDecoration(dividerItemDecoration);
@@ -86,7 +91,14 @@ public class MainActivity extends AppCompatActivity {
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         activityMainBinding.listMain.setLayoutParams(layoutParams);
 
+        mEndlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // 무한 스크롤 기능 구현(?)
+            }
+        };
 
+        activityMainBinding.listMain.addOnScrollListener(mEndlessScrollListener);
         activityMainBinding.listMain.setAdapter(mAdapter);
     }
 
@@ -188,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
             mQueue.cancelAll(TAG);
     }
 
-    public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder>{
+    public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         @NonNull
         @Override
         public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -218,6 +230,5 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount() {
             return (movieList == null ? 0 : movieList.size());
         }
-
     }
 }
