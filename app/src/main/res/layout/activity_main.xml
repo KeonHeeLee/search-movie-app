@@ -7,7 +7,7 @@
     <data>
         <variable
             name="activity"
-            type="keonheelee.github.io.searchmovie.MainActivity"/>
+            type="keonheelee.github.io.searchmovie.view.MainActivity"/>
     </data>
 
     <LinearLayout
@@ -33,7 +33,9 @@
                 android:id="@+id/searchBtn"
                 android:text="검색"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:onClick="@{activity::onClickSearchButton}"/>
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
