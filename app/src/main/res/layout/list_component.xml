@@ -6,7 +6,7 @@
     <data>
         <variable
             name="movie"
-            type="keonheelee.github.io.searchmovie.data.Movie"/>
+            type="keonheelee.github.io.searchmovie.model.data.Movie"/>
     </data>
 
     <LinearLayout

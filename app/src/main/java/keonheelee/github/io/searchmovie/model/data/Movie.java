@@ -1,4 +1,4 @@
-package keonheelee.github.io.searchmovie.data;
+package keonheelee.github.io.searchmovie.model.data;
 
 public class Movie {
     private String imageUrl;

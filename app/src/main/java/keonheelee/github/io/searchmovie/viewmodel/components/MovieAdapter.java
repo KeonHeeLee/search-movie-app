@@ -1,4 +1,4 @@
-package keonheelee.github.io.searchmovie.components;
+package keonheelee.github.io.searchmovie.viewmodel.components;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import io.reactivex.observers.DefaultObserver;
 import keonheelee.github.io.searchmovie.R;
-import keonheelee.github.io.searchmovie.data.Movie;
+import keonheelee.github.io.searchmovie.model.data.Movie;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 

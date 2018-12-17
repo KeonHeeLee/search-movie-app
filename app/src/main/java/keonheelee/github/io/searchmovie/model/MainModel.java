@@ -3,16 +3,13 @@ package keonheelee.github.io.searchmovie.model;
 import android.app.Activity;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import keonheelee.github.io.searchmovie.components.MovieAdapter;
-import keonheelee.github.io.searchmovie.data.Movie;
+import keonheelee.github.io.searchmovie.model.data.Movie;
 
 public class MainModel {
     private Activity activity;

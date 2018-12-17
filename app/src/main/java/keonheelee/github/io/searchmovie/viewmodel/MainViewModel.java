@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import keonheelee.github.io.searchmovie.components.LruBitmapCache;
-import keonheelee.github.io.searchmovie.components.MovieAdapter;
+import keonheelee.github.io.searchmovie.viewmodel.components.LruBitmapCache;
+import keonheelee.github.io.searchmovie.viewmodel.components.MovieAdapter;
 import keonheelee.github.io.searchmovie.contract.MainContract;
-import keonheelee.github.io.searchmovie.data.ClientKey;
-import keonheelee.github.io.searchmovie.data.Movie;
+import keonheelee.github.io.searchmovie.model.data.ClientKey;
+import keonheelee.github.io.searchmovie.model.data.Movie;
 import keonheelee.github.io.searchmovie.model.MainModel;
 
 public class MainViewModel implements MainContract{
