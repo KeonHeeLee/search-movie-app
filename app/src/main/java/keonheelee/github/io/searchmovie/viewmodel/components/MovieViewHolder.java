@@ -1,4 +1,4 @@
-package keonheelee.github.io.searchmovie.components;
+package keonheelee.github.io.searchmovie.viewmodel.components;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;

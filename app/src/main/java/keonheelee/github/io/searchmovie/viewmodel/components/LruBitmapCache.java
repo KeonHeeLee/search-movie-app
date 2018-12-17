@@ -1,4 +1,4 @@
-package keonheelee.github.io.searchmovie.components;
+package keonheelee.github.io.searchmovie.viewmodel.components;
 
 import android.content.Context;
 import android.graphics.Bitmap;
