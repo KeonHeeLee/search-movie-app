@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity{
                         if (keyword.equals(""))
                             showToast("검색어를 입력해주세요.");
 
-                        else
-                            renewRecyclerView();
+                        renewRecyclerView();
                     }
 
                     @Override
